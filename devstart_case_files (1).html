@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0d1117" />
+<title>DevStart · 機密特工檔案庫</title>
+<style>
+:root{
+  --bg:#0d1117;
+  --panel:#111820;
+  --panel-2:#161b22;
+  --line:#27313b;
+  --text:#d7e2e8;
+  --muted:#8b98a5;
+  --green:#00ff66;
+  --red:#ff3366;
+  --blue:#00e5ff;
+  --yellow:#ffd84d;
+  --brown:#c89355;
+  --shadow:0 0 30px rgba(0,229,255,.08), 0 0 50px rgba(0,255,102,.04);
+  --radius:18px;
+}
+*{box-sizing:border-box;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.7;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(0,255,102,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.02) 1px,transparent 1px);background-size:36px 36px;mask-image:linear-gradient(to bottom,black,transparent 90%);z-index:-1}
+a{color:inherit;text-decoration:none}
+.container{width:min(1180px,92vw);margin:auto}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(13,17,23,.88);backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,229,255,.13)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:70px}
+.brand{font-weight:800;letter-spacing:.06em;color:#fff}.brand span{color:var(--green)}
+.nav-links{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.nav-links a{font-size:.87rem;color:var(--muted);padding:8px 10px;border-radius:10px}.nav-links a:hover{color:#fff;background:#161b22}
+.hero{min-height:86vh;display:grid;place-items:center;padding:80px 0 70px;position:relative}
+.hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(0,255,102,.25);padding:7px 11px;border-radius:999px;color:var(--green);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.78rem;letter-spacing:.08em;background:rgba(0,255,102,.04)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 14px var(--green);animation:pulse 1.7s infinite}@keyframes pulse{50%{opacity:.35;transform:scale(.75)}}
+h1{font-size:clamp(2.4rem,5vw,5.2rem);line-height:1.05;margin:22px 0 16px;letter-spacing:-.045em;color:#f3fbff}h1 .accent{color:var(--green);text-shadow:0 0 25px rgba(0,255,102,.25)}
+.lead{font-size:1.08rem;color:#aebbc7;max-width:700px}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.btn{padding:12px 17px;border-radius:12px;border:1px solid var(--line);font-weight:700;font-size:.92rem;transition:.2s}.btn:hover{transform:translateY(-2px)}.btn-primary{background:var(--green);color:#07110b;border-color:var(--green);box-shadow:0 0 22px rgba(0,255,102,.18)}.btn-secondary{background:transparent;color:#c8faff;border-color:rgba(0,229,255,.28)}
+.terminal{background:#080b0f;border:1px solid #202831;border-radius:20px;box-shadow:var(--shadow);overflow:hidden;position:relative}.terminal-head{display:flex;align-items:center;gap:7px;padding:12px 14px;border-bottom:1px solid #1a2128;background:#0d1117}.win-dot{width:10px;height:10px;border-radius:50%;background:#404b54}.terminal-title{margin-left:auto;font:600 .75rem ui-monospace,SFMono-Regular,Consolas,monospace;color:#5d6a75}.terminal-body{padding:26px;font:500 .9rem/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;color:#9fb0bc}.terminal-body .g{color:var(--green)}.terminal-body .b{color:var(--blue)}.terminal-body .r{color:var(--red)}.terminal-body .y{color:var(--yellow)}
+.section{padding:86px 0}.section-head{display:flex;justify-content:space-between;gap:25px;align-items:end;margin-bottom:30px}.kicker{font:700 .78rem ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--blue);letter-spacing:.12em;text-transform:uppercase}.section h2{font-size:clamp(1.9rem,3.2vw,3rem);line-height:1.15;margin:8px 0}.section-head p{max-width:570px;color:var(--muted);margin:0}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:linear-gradient(180deg,rgba(22,27,34,.98),rgba(13,17,23,.98));border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:0 15px 40px rgba(0,0,0,.18)}.card:hover{border-color:#35424d}.card h3{margin:0 0 8px;font-size:1.15rem}.card p{color:#a9b6c1;margin:0}.tag{display:inline-block;padding:4px 8px;border-radius:999px;font:700 .7rem ui-monospace,SFMono-Regular,Consolas,monospace;margin-bottom:12px;background:#0e1319;border:1px solid #29333d;color:var(--blue)}
+.case-card{display:flex;gap:16px;align-items:flex-start}.icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:#0b1117;border:1px solid #28313a;font-size:1.2rem;flex:0 0 auto}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:16px}.table{width:100%;border-collapse:collapse;min-width:760px}.table th,.table td{padding:15px 16px;text-align:left;border-bottom:1px solid #222a32;vertical-align:top}.table th{color:#d8faff;background:#111820;font-size:.9rem}.table td{color:#aebbc7}.table tr:last-child td{border-bottom:0}.lang{font-weight:800;color:#fff}.lang.cpp{color:var(--blue)}.lang.py{color:var(--yellow)}
+.mission{position:relative;padding:28px;border-radius:20px;border:1px solid #26323c;background:linear-gradient(145deg,#121922,#0d1117);overflow:hidden}.mission::after{content:"MISSION FILE";position:absolute;right:-25px;top:18px;font:800 3rem ui-monospace,SFMono-Regular,Consolas,monospace;color:rgba(255,255,255,.025);transform:rotate(90deg)}.mission-top{display:flex;justify-content:space-between;gap:15px;align-items:flex-start}.mission-id{font:800 .8rem ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--green)}.mission h3{font-size:1.6rem;margin:8px 0}.mission ul{padding-left:20px;color:#aebbc7}.mission li+li{margin-top:7px}
+.timeline{position:relative;margin-top:22px}.timeline::before{content:"";position:absolute;left:17px;top:0;bottom:0;width:1px;background:#2a333d}.timeline-item{position:relative;padding:0 0 24px 54px}.timeline-item:last-child{padding-bottom:0}.timeline-item::before{content:"";position:absolute;left:12px;top:8px;width:11px;height:11px;border-radius:50%;background:var(--blue);box-shadow:0 0 14px rgba(0,229,255,.4)}.timeline-year{font:800 .82rem ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--blue)}.timeline-item h4{margin:3px 0 4px;font-size:1.03rem}.timeline-item p{margin:0;color:#9caab6}
+.code-wrap{background:#080b0f;border:1px solid #222a33;border-radius:16px;overflow:hidden}.code-head{padding:11px 14px;border-bottom:1px solid #1b2229;display:flex;justify-content:space-between;color:#687781;font:700 .76rem ui-monospace,SFMono-Regular,Consolas,monospace}.code{margin:0;padding:20px;overflow:auto;font:500 .86rem/1.75 Consolas,"Courier New",monospace;color:#cbd6dc}.code .kw{color:var(--blue)}.code .str{color:#c5f36a}.code .com{color:#697985}.code .num{color:#ffca72}
+details{border:1px solid var(--line);border-radius:15px;background:#10161d;overflow:hidden}details+details{margin-top:12px}summary{cursor:pointer;list-style:none;padding:16px 18px;font-weight:750}summary::-webkit-details-marker{display:none}summary::after{content:"+";float:right;color:var(--green);font:800 1.2rem ui-monospace,SFMono-Regular,Consolas,monospace}details[open] summary::after{content:"−"}details .detail-body{padding:0 18px 18px;color:#aebbc7}
+.status{height:100%;border-radius:16px;padding:18px;border:1px solid #25303a;background:#10161d}.status-code{font:900 1.5rem ui-monospace,SFMono-Regular,Consolas,monospace}.status .desc{margin-top:6px;color:#9eabb6}.status.ac{border-color:rgba(0,255,102,.2)}.status.ac .status-code{color:var(--green)}.status.wa .status-code{color:var(--red)}.status.ce .status-code{color:var(--blue)}.status.re .status-code{color:var(--yellow)}.status.tle .status-code{color:#f4ae67}.status.mle .status-code{color:var(--brown)}
+.tool-link{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:15px 17px;border-radius:14px;border:1px solid #29333c;background:#10161d}.tool-link:hover{border-color:rgba(0,229,255,.35);transform:translateY(-1px)}.tool-link small{color:#73808c}.arrow{color:var(--blue);font-size:1.1rem}
+.callout{border-left:3px solid var(--green);padding:16px 18px;background:rgba(0,255,102,.045);border-radius:0 13px 13px 0;color:#b9c7cf}.warning{border-left-color:var(--red);background:rgba(255,51,102,.045)}
+.footer{border-top:1px solid #1e252d;padding:28px 0 50px;color:#677682;text-align:center;font-size:.85rem}.footer strong{color:#a7b4bf}
+.reveal{animation:fadeUp .8s both}@keyframes fadeUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:none}}
+@media(max-width:900px){.hero-grid,.grid-2,.grid-3{grid-template-columns:1fr}.nav{align-items:flex-start;padding:12px 0}.nav-links{justify-content:flex-start}.section{padding:66px 0}.section-head{display:block}.section-head p{margin-top:10px}.terminal{margin-top:8px}}
+@media(max-width:560px){h1{font-size:2.35rem}.hero{min-height:auto;padding-top:55px}.btn{width:100%;text-align:center}.case-card{flex-direction:column}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="container nav">
+    <a href="#home" class="brand">DEV<span>START</span> // CASE FILES</a>
+    <nav class="nav-links" aria-label="主選單">
+      <a href="#home">BRIEFING</a>
+      <a href="#mission1">MISSION 01</a>
+      <a href="#mission2">MISSION 02</a>
+      <a href="#judge">JUDGE</a>
+      <a href="#tools">TOOLS</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section id="home" class="hero">
+  <div class="container hero-grid">
+    <div class="reveal">
+      <div class="eyebrow"><span class="dot"></span> CLASSIFIED // TRAINING TERMINAL ONLINE</div>
+      <h1>[CLASSIFIED]<br><span class="accent">程式特工培訓計畫</span><br>數字世界的底層邏輯</h1>
+      <p class="lead">歡迎登入特工終端機。程式是一種與電腦溝通的語言，能執行軟體開發、系統控制、資料處理與自動化任務。準備好解鎖核心程式技能了嗎？</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#mission2">[ 解鎖 C++ 核心檔案 ]</a>
+        <a class="btn btn-secondary" href="#mission1">[ 探索 Python 潛入任務 ]</a>
+      </div>
+    </div>
+    <div class="terminal reveal">
+      <div class="terminal-head"><span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span><span class="terminal-title">agent_terminal.exe</span></div>
+      <pre class="terminal-body"><span class="g">$</span> connect devstart://classified
+<span class="g">[OK]</span> secure channel established
+<span class="g">[OK]</span> identity: <span class="b">TRAINEE</span>
+<span class="y">[SCAN]</span> checking mission files...
+<span class="g">[OPEN]</span> M01 // PYTHON FIELD OPS
+<span class="g">[OPEN]</span> M02 // C++ DEEP COVER
+<span class="g">[OPEN]</span> SIDE // JUDGE TRIALS
+<span class="r">[LOCK]</span> evidence archive: partial access
+
+<span class="b">status:</span> READY FOR DEPLOYMENT_</pre>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="cases">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">01 / CASE FILES</div><h2>大型專案背後的武器庫</h2></div>
+      <p>從遊戲、瀏覽器到 AI 與資料系統，不同語言各自負責不同任務。把「語言」想成特工裝備：先知道用途，再選擇最適合的工具。</p>
+    </div>
+    <div class="grid-2">
+      <div class="card case-card"><div class="icon">🎮</div><div><span class="tag">GAME STACK</span><h3>原神</h3><p>Unity 引擎 + C#，搭配 C++ 與 Lua 等技術，形成大型遊戲所需的多層技術堆疊。</p></div></div>
+      <div class="card case-card"><div class="icon">⚔️</div><div><span class="tag">CORE ENGINE</span><h3>傳說對決 / 荒野亂鬥</h3><p>核心技術大量使用 C++，重視效能、即時運算與跨平台開發需求。</p></div></div>
+      <div class="card case-card"><div class="icon">🧱</div><div><span class="tag">SANDBOX</span><h3>Minecraft</h3><p>不同版本與系統會使用不同技術堆疊，常見 Java 與 C++ 生態。</p></div></div>
+      <div class="card case-card"><div class="icon">🌐</div><div><span class="tag">BROWSER</span><h3>Google Chrome</h3><p>瀏覽器核心重視效能與安全，C++ 與 JavaScript 等技術共同支撐現代 Web 體驗。</p></div></div>
+      <div class="card case-card"><div class="icon">🎬</div><div><span class="tag">DATA / AI</span><h3>YouTube / Netflix 推薦系統</h3><p>推薦系統通常會結合 Python 與其他高效能或資料工程技術處理大規模資料。</p></div></div>
+    </div>
+
+    <div style="height:22px"></div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>特工語言</th><th>核心擅長任務</th><th>語言特性與應用案例</th></tr></thead>
+        <tbody>
+          <tr><td class="lang cpp">C++ ⚡</td><td>遊戲引擎、瀏覽器、系統軟體、極致效能需求</td><td>接近硬體底層、執行效率高、資工核心基礎</td></tr>
+          <tr><td class="lang py">Python 🐍</td><td>人工智慧、數據分析、自動化腳本</td><td>語法直觀、容易上手，適合快速開發</td></tr>
+          <tr><td class="lang">C# / Java 🧱</td><td>Unity 遊戲開發、Windows 軟體、企業級後端</td><td>結構完整，廣泛應用於大型軟體與企業系統</td></tr>
+          <tr><td class="lang">JavaScript 🌐</td><td>網站前端、伺服器開發與現代 Web</td><td>Web 核心語言之一，也可用於全端開發</td></tr>
+          <tr><td class="lang">Swift / Kotlin 📱</td><td>行動裝置 App</td><td>Swift 對應 iOS，Kotlin 常用於 Android 原生開發</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="mission1">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">MISSION 01 · FIELD OPERATIONS</div><h2>入門潛入：Python 潛入專頁</h2></div>
+      <p>快速掌握程式概念，從資料、腳本到 AI 任務，建立第一套數位特工裝備。</p>
+    </div>
+    <div class="grid-2">
+      <article class="mission"><div class="mission-top"><div><div class="mission-id">LOG 01 // FIELD OPS</div><h3>極速數據與 AI 攻擊</h3></div><span class="tag">ACCESS: EASY</span></div><p>Python 是特工進行快速自動化與數據分析的常用工具。</p><ul><li><strong>自動化腳本：</strong>讓重複性高的工作自動完成。</li><li><strong>AI 應用：</strong>可用於機器學習、資料處理與模型訓練等任務。</li></ul></article>
+      <article class="card"><span class="tag">FIELD NOTES</span><h3>潛入思維</h3><div class="callout">先把問題拆小，再讓程式一步一步完成。快速寫出能運作的原型，是 Python 很適合的入門方式。</div><p style="margin-top:16px">建議任務順序：變數 → 條件判斷 → 迴圈 → 函式 → 資料結構 → 自動化 / AI。</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="mission2">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">MISSION 02 · DEEP COVER</div><h2>深層核心：C++ 核心專頁</h2></div>
+      <p>從程式的基本骨架、資料型態到記憶體觀念，逐步接近底層世界。</p>
+    </div>
+    <div class="grid-2">
+      <div class="card"><span class="tag">WHY C++?</span><h3>為什麼要學 C++？</h3><ul style="color:#aebbc7;padding-left:20px"><li><strong>基礎穩固：</strong>理解編譯、型態、記憶體與物件導向等核心觀念。</li><li><strong>極致效能：</strong>適合需要高效能與精準資源控制的場景。</li><li><strong>資工基礎：</strong>許多資訊相關課程會以 C / C++ 建立程式設計基礎。</li><li><strong>物件導向：</strong>支援 Class、封裝、繼承與多型等概念。</li></ul></div>
+      <div class="card"><span class="tag">AGENT PROFILE</span><h3>核心訓練目標</h3><div class="grid-2" style="gap:10px"><div class="status ac"><div class="status-code">01</div><div class="desc">能讀懂基本程式骨架</div></div><div class="status ce"><div class="status-code">02</div><div class="desc">能辨認常見編譯問題</div></div><div class="status re"><div class="status-code">03</div><div class="desc">建立執行與除錯思維</div></div><div class="status mle"><div class="status-code">04</div><div class="desc">理解資料型態與資源</div></div></div></div>
+    </div>
+
+    <div style="height:25px"></div>
+    <div class="card">
+      <span class="tag">HISTORY FILES</span><h3>機密歷史：C++ 的演進</h3>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-year">EARLY ERA</div><h4>機器碼與組合語言</h4><p>早期電腦更接近直接操作硬體指令，後來逐步出現更容易閱讀與編寫的組合語言。</p></div>
+        <div class="timeline-item"><div class="timeline-year">1970s</div><h4>高階語言興起</h4><p>C 語言成為系統程式設計的重要基礎，影響後續許多語言的設計。</p></div>
+        <div class="timeline-item"><div class="timeline-year">1979</div><h4>Bjarne Stroustrup 展開研發</h4><p>最初的設計稱為「C with Classes」，逐步加入物件導向能力。</p></div>
+        <div class="timeline-item"><div class="timeline-year">1983</div><h4>正式命名為 C++</h4><p>「++」象徵對 C 語言的延伸與進步。</p></div>
+        <div class="timeline-item"><div class="timeline-year">1998</div><h4>成為 ISO 國際標準</h4><p>C++ 標準化後，語言規範進一步制度化並持續演進。</p></div>
+      </div>
+    </div>
+
+    <div style="height:25px"></div>
+    <div class="grid-2">
+      <div>
+        <span class="tag">BASE STRUCTURE</span>
+        <div class="code-wrap">
+          <div class="code-head"><span>main.cpp</span><span>CORE ACCESS</span></div>
+<pre class="code"><span class="com">#include &lt;bits/stdc++.h&gt; // 萬用標頭檔</span>
+<span class="kw">using namespace</span> std;      <span class="com">// 命名空間</span>
+
+<span class="kw">int</span> main() {
+    <span class="kw">int</span> a;
+    cin &gt;&gt; a;               <span class="com">// 輸入</span>
+    cout &lt;&lt; a &lt;&lt; endl;      <span class="com">// 輸出與換行</span>
+    <span class="kw">return</span> <span class="num">0</span>;
+}</pre>
+        </div>
+      </div>
+      <div>
+        <span class="tag">TERMINAL NOTES</span>
+        <div class="card" style="height:calc(100% - 30px)">
+          <div class="callout">程式通常會依照流程一步一步執行。C++ 中多數敘述以 <code>;</code> 結尾，而 <code>//</code> 後面的內容會被當成註解。</div>
+          <div class="warning callout" style="margin-top:14px"><strong>編譯提醒：</strong>實際競程環境是否支援 <code>&lt;bits/stdc++.h&gt;</code>，取決於編譯器與平台；教學與競賽常見 GCC 環境通常可使用。</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:25px"></div>
+    <div>
+      <span class="tag">TOOLS & MEMORY</span>
+      <details open><summary>1. 資料型態與記憶體空間</summary><div class="detail-body"><p><code>int</code> 常見為 4 bytes；32 位元有號整數常見範圍為 −2,147,483,648 到 2,147,483,647。<code>float</code> / <code>double</code> 用於浮點數，<code>char</code> 儲存單一字元，<code>bool</code> 表示真偽，<code>string</code> 儲存文字。</p><div class="warning callout"><strong>整數溢位：</strong>當整數運算超出型態可表示範圍時，結果不再可信。實務上應選擇合適的型態並留意運算範圍。</div></div></details>
+      <details><summary>2. 字元與字串操作</summary><div class="detail-body"><div class="code-wrap"><pre class="code"><span class="kw">string</span> s = <span class="str">"Hello World"</span>;
+cout &lt;&lt; s.size();
+cout &lt;&lt; s.empty();
+
+<span class="kw">string</span> fullName;
+getline(cin, fullName);</pre></div><p style="margin-bottom:0">其中 <code>getline()</code> 可以讀取包含空白的整行文字。</p></div></details>
+      <details><summary>3. 算術演練：BMI 計算程式</summary><div class="detail-body"><div class="code-wrap"><pre class="code"><span class="kw">#include</span> <span class="str">&lt;iostream&gt;</span>
+<span class="kw">using namespace</span> std;
+
+<span class="kw">int</span> main() {
+    <span class="kw">double</span> weight, height, bmi;
+    cin &gt;&gt; weight;
+    cin &gt;&gt; height;
+    bmi = weight / (height * height);
+    cout &lt;&lt; bmi &lt;&lt; endl;
+    <span class="kw">return</span> <span class="num">0</span>;
+}</pre></div><p style="margin-bottom:0">這個範例示範輸入、變數、四則運算與輸出等基本流程。</p></div></details>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="judge">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">SIDE MISSIONS · JUDGE</div><h2>模擬實戰：評測狀態回傳表</h2></div>
+      <p>把程式提交到 Judge 後，回傳結果就是任務報告。先看懂代碼，才能快速定位問題。</p>
+    </div>
+    <div class="grid-3">
+      <div class="status ac"><div class="status-code">🟢 AC</div><div class="desc"><strong>Accepted</strong><br>程式完全通過測試。</div></div>
+      <div class="status wa"><div class="status-code">🔴 WA</div><div class="desc"><strong>Wrong Answer</strong><br>邏輯或輸出結果不符合預期。</div></div>
+      <div class="status ce"><div class="status-code">🔵 CE</div><div class="desc"><strong>Compile Error</strong><br>無法成功編譯，常見原因是語法或型態問題。</div></div>
+      <div class="status re"><div class="status-code">🟡 RE</div><div class="desc"><strong>Runtime Error</strong><br>程式執行途中發生錯誤。</div></div>
+      <div class="status tle"><div class="status-code">🟠 TLE</div><div class="desc"><strong>Time Limit Exceeded</strong><br>超過時間限制，可能需要改善演算法。</div></div>
+      <div class="status mle"><div class="status-code">🟤 MLE</div><div class="desc"><strong>Memory Limit Exceeded</strong><br>記憶體使用量超出限制。</div></div>
+    </div>
+
+    <div style="height:25px"></div>
+    <div class="card"><span class="tag">JUDGE SITES</span><h3>推薦演練平台</h3><div style="display:grid;gap:10px;margin-top:15px">
+      <a class="tool-link" href="https://zerojudge.tw/" target="_blank" rel="noopener noreferrer"><span><strong>ZeroJudge</strong><br><small>題目豐富，適合建立基礎實力</small></span><span class="arrow">↗</span></a>
+      <a class="tool-link" href="https://tcirc.org/" target="_blank" rel="noopener noreferrer"><span><strong>TCIRC Judge</strong><br><small>競賽與題庫練習</small></span><span class="arrow">↗</span></a>
+      <a class="tool-link" href="https://codeforces.com/" target="_blank" rel="noopener noreferrer"><span><strong>Codeforces</strong><br><small>全球競程競賽與題庫</small></span><span class="arrow">↗</span></a>
+      <a class="tool-link" href="https://atcoder.jp/" target="_blank" rel="noopener noreferrer"><span><strong>AtCoder</strong><br><small>定期競賽與演算法題目</small></span><span class="arrow">↗</span></a>
+      <a class="tool-link" href="https://leetcode.com/" target="_blank" rel="noopener noreferrer"><span><strong>LeetCode</strong><br><small>面試與演算法題庫</small></span><span class="arrow">↗</span></a>
+    </div></div>
+  </div>
+</section>
+
+<section class="section" id="tools">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="kicker">EVIDENCE · TOOLS</div><h2>蛛絲馬跡：特工裝備與工具庫</h2></div>
+      <p>選好開發環境，讓程式碼能更快被編譯、執行與除錯。</p>
+    </div>
+    <div class="grid-3">
+      <a class="card" href="https://www.codeblocks.org/downloads/" target="_blank" rel="noopener noreferrer"><span class="tag">IDE / BEGINNER</span><h3>Code::Blocks</h3><p>新手友善的 C / C++ 開發環境；Windows 使用者可依需求選擇含編譯器的安裝版本。</p><div class="arrow" style="margin-top:14px">開啟下載頁 ↗</div></a>
+      <a class="card" href="https://code.visualstudio.com/" target="_blank" rel="noopener noreferrer"><span class="tag">IDE / MODERN</span><h3>Visual Studio Code</h3><p>輕量、擴充性高，適合多語言開發與現代工作流程。</p><div class="arrow" style="margin-top:14px">開啟官網 ↗</div></a>
+      <a class="card" href="https://www.onlinegdb.com/online_c++_compiler" target="_blank" rel="noopener noreferrer"><span class="tag">WEB / ONLINE</span><h3>Online Compiler</h3><p>瀏覽器直接編譯與執行，適合快速測試短程式與課堂練習。</p><div class="arrow" style="margin-top:14px">開啟工具 ↗</div></a>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:20px">
+  <div class="container">
+    <div class="card" style="text-align:center;padding:34px">
+      <div class="kicker">FINAL CHECKPOINT</div>
+      <h2 style="margin-bottom:10px">特工訓練完成度：待你解鎖</h2>
+      <p style="color:#9aa9b4;max-width:700px;margin:0 auto 18px">從 Python 的快速潛入，到 C++ 的深層核心，再把 Judge 的錯誤代碼轉成除錯線索。真正的能力，不只是背語法，而是能把問題拆開並讓電腦照你的指令行動。</p>
+      <a class="btn btn-primary" href="#home">[ RETURN TO BRIEFING ]</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer"><div class="container"><strong>DEVSTART · CLASSIFIED CASE FILES</strong><br>Cyber Operation / Case Files / Dark Mode<br><span>Designed as a standalone HTML training site.</span></div></footer>
+
+<script>
+// Smooth internal navigation + subtle active menu highlighting.
+const links=[...document.querySelectorAll('.nav-links a')];
+const sections=[...document.querySelectorAll('main section[id]')];
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      links.forEach(l=>l.classList.remove('active'));
+      const a=links.find(l=>l.getAttribute('href')==='#'+entry.target.id);
+      if(a){a.style.color='#00e5ff';a.style.background='#111820';}
+      links.filter(l=>l!==a).forEach(l=>{l.style.color='';l.style.background='';});
+    }
+  });
+},{threshold:.35});
+sections.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
